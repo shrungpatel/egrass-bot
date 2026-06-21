@@ -9,14 +9,17 @@ COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile --production
 
 # Copy sources
-COPY assets ./assets
+COPY drizzle ./drizzle
 COPY src ./src
 
 ENV NODE_ENV=production
+ENV BUN_PORT=80
 ENV TZ=America/Indianapolis
 ENV LANG=en_US.UTF-8
 
 VOLUME [ "/var/lib/bot" ]
 WORKDIR /var/lib/bot
 
-ENTRYPOINT ["bun", "run", "-b", "/app/src/index.ts"]
+EXPOSE 80/tcp
+
+ENTRYPOINT ["bun", "run", "-b", "/app/src/main.ts"]
